@@ -20,7 +20,6 @@ export class CdkWorkshopStack extends Stack {
       handler: 'hello.handler'                // file is "hello", function is "handler"
     });
 
- 
     const helloWithCounter = new HitCounter(this, 'HelloHitCounter', {
       downstream: hello
     });
