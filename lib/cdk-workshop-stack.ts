@@ -5,13 +5,19 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigw from 'aws-cdk-lib/aws-apigateway';
-import { HitCounter } from './hitcounter';
+import { HitCounter, HitCounterProps } from './hitcounter';
 import { TableViewer } from 'cdk-dynamo-table-viewer';
+
 
 import { addLambdaPermission, ApiGateway } from 'aws-cdk-lib/aws-events-targets';
 import * as cdk from 'aws-cdk-lib';
 export class CdkWorkshopStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props?: HitCounterProps) {
+
+    if(props.readCapacity !== undefined && (props.readCapacity < 5 || props.readCapacity > 20)){
+      throw  new Error('readCapacity must be greater than 5 and less than 20')
+    }
+
     super(scope, id, props);
 
     // defines an AWS Lambda resource
